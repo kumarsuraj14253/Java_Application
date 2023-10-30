@@ -4,12 +4,12 @@ pipeline{
     agent any
 
     parameters{
-        choice(name: 'action', choices: 'create\ndelete', description: 'CHOOSE: CREATE OR DESTROY')
+        choice(name: 'ACTION', choices: 'Create\nDelete', description: 'CHOOSE: CREATE OR DESTROY')
     }
     stages{
 
         stage('Git Checkout'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 gitCheckout(
                         branch: 'main',
@@ -18,7 +18,7 @@ pipeline{
                     }
                 }
         stage('Unit Test Maven'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
                         mvnTest()
@@ -26,7 +26,7 @@ pipeline{
                 }
             }
         stage('Integration Test Maven'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
                         mvnIntegrationTest()
@@ -34,7 +34,7 @@ pipeline{
                 }
             }
         stage('Static Code Analysis:SonarQube'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
                         def SonarQubeCredentialsID= 'sonar-token'
@@ -43,7 +43,7 @@ pipeline{
                 }
             }
         stage('Quality Gate Checks:SonarQube'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
                         def SonarQubeCredentialsID= 'sonar-token'
@@ -52,7 +52,7 @@ pipeline{
                 }
             }        
         stage('Maven Build'){
-        when { expression { params.action == 'create'}}
+        when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
                         mvnBuild()
