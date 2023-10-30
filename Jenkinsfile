@@ -7,7 +7,7 @@ pipeline{
             steps{
                 script{
                     gitCheckout{
-                        branch: 'main'
+                        branch: 'main',
                         url: 'https://github.com/kumarsuraj14253/mrdevops_java_app12345.git'
                     }
                 }
