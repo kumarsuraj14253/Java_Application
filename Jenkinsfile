@@ -5,6 +5,9 @@ pipeline{
 
     parameters{
         choice(name: 'ACTION', choices: 'Create\nDelete', description: 'CHOOSE: CREATE OR DESTROY')
+        string(name: 'imagename', description: 'name of the docker build', defaultValue: 'javaapp')
+        string(name: 'imagetag', description: 'tag of the docker build', defaultValue: 'v1')
+        string(name: 'dockerhubuser', description: 'name of the application', defaultValue: 'kumarsuraj14253')
     }
     stages{
 
@@ -51,7 +54,7 @@ pipeline{
                     }
                 }
             }        
-        stage('Maven Build'){
+        stage('Maven Build:Maven'){
         when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
@@ -59,5 +62,13 @@ pipeline{
                     }
                 }
             }
+        stage('Docker Image Build'){
+        when { expression { params.ACTION == 'Create'}}
+            steps{
+                script{
+                        dockerBuild("${params.imagename}","${params.imagetag}","${params.dockerhubuser}",)
+                    }
+                }
+            }    
         }
     }
