@@ -12,7 +12,7 @@
     <artifactId>kubernetes-configmap-reload</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>minikube-sample</name>
+    <name>Spring Cloud Kubernetes</name>
     <description>Demo project for Spring Cloud Kubernetes</description>
 
     <properties>
