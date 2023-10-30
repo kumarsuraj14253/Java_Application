@@ -47,7 +47,7 @@ pipeline{
             steps{
                 script{
                         def SonarQubeCredentialsID= 'sonar-token'
-                        qualitychecks(SonarQubeCredentialsID)
+                        qualityGateStatus(SonarQubeCredentialsID)
                     }
                 }
             }        
