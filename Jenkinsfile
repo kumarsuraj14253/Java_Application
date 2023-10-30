@@ -41,6 +41,15 @@ pipeline{
                         staticCodeAnalysis(SonarQubeCredentialsID)
                     }
                 }
+            }
+        stage('Quality Gate Checks:SonarQube'){
+        when { expression { params.action == 'create'}}
+            steps{
+                script{
+                        def SonarQubeCredentialsID= 'sonar-token'
+                        qualitychecks(SonarQubeCredentialsID)
+                    }
+                }
             }        
         }
     }
