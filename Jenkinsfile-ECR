@@ -112,6 +112,7 @@ pipeline{
         when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
+                    dir('/eks_module'){
                         sh""" 
                          terraform init
                          terraform plan -var'access_key=$ACCESS_KEY' -var'secret_key=$SECRET_KEY' -var'region=${params.awsRegion}' --var-file=./config/terraform.tfvars
@@ -119,6 +120,7 @@ pipeline{
                         """
                     }
                 }
-            }    
-        }
-    }   
+            }
+        }    
+    }
+}   
