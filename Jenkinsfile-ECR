@@ -62,14 +62,6 @@ pipeline{
                     }
                 }
             }
-        stage('Docker Login:ECR'){
-        when { expression { params.ACTION == 'Create'}}
-            steps{
-                script{
-                        dockerLoginECR("${params.aws_account_id}","${params.awsRegion}")
-                    }
-                }
-            }
         stage('Docker Image Build:ECR'){
         when { expression { params.ACTION == 'Create'}}
             steps{
@@ -83,6 +75,14 @@ pipeline{
             steps{
                 script{
                         dockerImageScanECR("${params.aws_account_id}","${params.awsRegion}","${params.ecrRepoName}")
+                    }
+                }
+            }
+        stage('Docker Login:ECR'){
+        when { expression { params.ACTION == 'Create'}}
+            steps{
+                script{
+                        dockerLoginECR("${params.aws_account_id}","${params.awsRegion}")
                     }
                 }
             }
