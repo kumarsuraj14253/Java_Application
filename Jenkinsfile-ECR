@@ -82,7 +82,7 @@ pipeline{
         when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
-                        dockerImageScan("${params.imagename}","${params.imagetag}","${params.dockerhubuser}")
+                        dockerImageScanECR("${params.aws_account_id}","${params.ecrRegion}","${params.ecrRepoName}")
                     }
                 }
             }
