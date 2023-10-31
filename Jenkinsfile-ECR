@@ -66,7 +66,7 @@ pipeline{
         when { expression { params.ACTION == 'Create'}}
             steps{
                 script{
-                        dockerLoginECR("${params.aws_account_id}","${params.awsRegion}","${params.ecrRepoName}")
+                        dockerLoginECR("${params.aws_account_id}","${params.awsRegion}")
                     }
                 }
             }
