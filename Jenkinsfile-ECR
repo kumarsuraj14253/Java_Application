@@ -9,6 +9,12 @@ pipeline{
         string(name: 'awsRegion', description: 'Name of the Region', defaultValue: 'us-east-2')
         string(name: 'ecrRepoName', description: 'Name of the Repository', defaultValue: 'spring-cloud-kubernetesapp')
     }
+
+    environment{
+        ACCESS_KEY= credentialsID('AWS_ACCESS_KEY_ID')
+        SECRET_KEY= credentialsID('AWS_SECRET_KEY_ID')
+    }
+
     stages{
 
         stage('Git Checkout'){
@@ -99,6 +105,18 @@ pipeline{
             steps{
                 script{
                         dockerImageCleanupECR("${params.aws_account_id}","${params.awsRegion}","${params.ecrRepoName}")
+                    }
+                }
+            }
+        stage('Create EKS Cluster: Terraform'){
+        when { expression { params.ACTION == 'Create'}}
+            steps{
+                script{
+                        sh""" 
+                         terraform init
+                         terraform plan -var'access_key=$ACCESS_KEY' -var'secret_key=$SECRET_KEY' -var'region=${params.awsRegion}' --var-file=./config/terraform.tfvars
+                         terraform apply -var'access_key=$ACCESS_KEY' -var'secret_key=$SECRET_KEY' -var'region=${params.awsRegion}' --var-file=./config/terraform.tfvars
+                        """
                     }
                 }
             }    
